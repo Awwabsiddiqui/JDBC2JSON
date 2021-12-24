@@ -35,7 +35,7 @@ public static void main(String args[]) {
 
 public static Connection DBconn() throws Exception {
         //Class.forName("com.mysql.cj.jdbc.Driver");
-        Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/mainer", "root", "16200913");
+        Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/mainer", "root", "");
         return conn;
     }
 
