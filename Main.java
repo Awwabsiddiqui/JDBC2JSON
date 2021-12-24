@@ -16,7 +16,8 @@ public static void main(String args[]) {
         try{
             System.out.println("1 for db2json    ///    2 for json 2 db");
             Scanner obj = new Scanner(System.in);
-            int x=obj.nextInt();
+            //int x=obj.nextInt();
+            int x=2;
             if (x==1){
                     dbtojson();
                     }
@@ -35,7 +36,7 @@ public static void main(String args[]) {
 
 public static Connection DBconn() throws Exception {
         //Class.forName("com.mysql.cj.jdbc.Driver");
-        Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/mainer", "root", "");
+        Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/mainer", "root", "16200913");
         return conn;
     }
 
@@ -91,6 +92,8 @@ public static void jsontodb(){
 
             Connection conn = DBconn();
             Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery("select * from empdata");
+            ResultSetMetaData rsMetaData = rs.getMetaData();
 
             JSONParser jsonParser = new JSONParser();
 
@@ -99,6 +102,8 @@ public static void jsontodb(){
             JSONArray jsonArray = (JSONArray) jsonObject.get("DATAFRAME");
 
             ArrayList<String> arr = new ArrayList<String>();
+
+
 
             int colen=0;
             for(Object object : jsonArray) {
@@ -126,17 +131,16 @@ public static void jsontodb(){
 
             for(Object object : jsonArray) {
                 JSONObject record = (JSONObject) object;
-                for(int k=0 ; k<colen ; k++){
-                    //System.out.println(record.get(arr.get(k)));
+
+//                for(int k=0 ; k<colen ; k++){
+//                    //System.out.println(record.get(arr.get(k)));
+//                }
+                for(int z=0 ; z<colen ; z++){
+                    pstmt.setString(rs.findColumn((String)arr.get(z)),(String)record.get((String)arr.get(z)));
                 }
-
-                String id = (String) record.get("id");
-                String name = (String) record.get("name");
-                String role = (String) record.get("role");
-
-                pstmt.setString(1,id);
-                pstmt.setString(2,name);
-                pstmt.setString(3,role);
+//                pstmt.setString(1,(String) record.get("id"));
+//                pstmt.setString(2,(String) record.get("name"));
+//                pstmt.setString(3,(String) record.get("role"));
 
                 pstmt.executeUpdate();
 
